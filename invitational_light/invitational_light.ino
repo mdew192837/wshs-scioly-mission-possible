@@ -29,11 +29,12 @@ void loop(void) {
     Serial.println(" - Dim");
   } else if (photocellReading < 500) {
     Serial.println(" - Light");
-  } else if (photocellReading < 800) {
+  } else if (photocellReading < 925) {
     Serial.println(" - Bright");
   } else {
     Serial.println(" - Very bright");
     if (!spoken) {
+      delay(9000);
       Serial.println("Trigged");
       digitalWrite(2, LOW);
       spoken = true;
