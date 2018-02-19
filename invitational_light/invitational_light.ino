@@ -34,7 +34,7 @@ void loop(void) {
   } else {
     Serial.println(" - Very bright");
     if (!spoken) {
-      delay(9000);
+      delay(9000); //delay to max score
       Serial.println("Trigged");
       digitalWrite(2, LOW);
       spoken = true;
