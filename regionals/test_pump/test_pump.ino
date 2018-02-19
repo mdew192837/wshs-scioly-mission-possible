@@ -1,4 +1,5 @@
 boolean triggered = false;
+boolean lastState = true;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -9,13 +10,12 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   int sensor_reading = digitalRead(2);
-  Serial.println(sensor_reading);
-  if (sensor_reading == HIGH) {
-    Serial.println("SENSOR READING HIGH");
+  if (sensor_reading == LOW && lastState) {
+    Serial.println("Not Triggered");
     Serial.println(sensor_reading);  
   }
   if (sensor_reading == HIGH && !triggered) {
-    Serial.println("Should be working");
+    Serial.println("Triggered");
     digitalWrite(13, HIGH);
     triggered = true;
     delay(1500);
@@ -23,4 +23,5 @@ void loop() {
   else {
     digitalWrite(13, LOW);
   }
+  lastState = sensor_reading;
 }
