@@ -1,5 +1,5 @@
 /* 
- * 
+ * WSHS Sci Oly IR Code
  */
 
 #define LEDPIN 13
@@ -8,7 +8,7 @@
   // Pin  6: Teensy++ 2.0 has the LED on pin 6
   // Pin 13: Teensy 3.0 has the LED on pin 13
 
-#define SENSORPIN 4
+#define SENSORPIN 2
 
 // variables will change:
 int sensorState = 0, lastState=0;         // variable for reading the pushbutton status
