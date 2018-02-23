@@ -10,21 +10,18 @@ Adafruit_Si7021 sensor = Adafruit_Si7021();
 // Declare ambientTemp
 float ambientTemp;
 
-// PELTIER
-int PELTIER = 2;
+// Peltier Pin
+// Same as transistor
+// Default is 0
+int PELTIER = 12;
 
 void setup() {
   // Setting up the pin
-  pinMode(2, OUTPUT);
-  // digitalWrite(2, LOW);
+  pinMode(PELTIER, OUTPUT);
+  digitalWrite(PELTIER, LOW);
 
   // Serial monitor Crt+Alt+M
-  Serial.begin(115200);
-
-  // wait for serial port to open
-  while (!Serial) {
-    delay(10);
-  }
+  Serial.begin(9600);
 
   Serial.println("Si7021 test!");
 
@@ -38,23 +35,19 @@ void setup() {
   ambientTemp = getAverage();
   Serial.print("Ambient Temperature:          ");
   Serial.println(ambientTemp);
+  Serial.print("Peltier State:                ");
   Serial.println(digitalRead(PELTIER));
-  // We realized LOW is 0
-  if ( LOW ) {
-    Serial.println("LOW IS 1");
-  }
-  else {
-    Serial.println("LOW IS 0");
-  }
 }
 
 void loop() {
+  Serial.println(digitalRead(PELTIER));
   Serial.print("Humidity:    "); Serial.print(sensor.readHumidity(), 2);
   Serial.print("\tTemperature: "); Serial.println(toFahrenheit(sensor.readTemperature()), 2);
   delay(1000);
   // Currently set to 3 degrees F below ambient, subject to change
   if ( toFahrenheit(sensor.readTemperature()) < ( ambientTemp - 3 ) ) {
-    digitalWrite(PELTIER, HIGH);
+    // Should just write PELTIER to high here
+    digitalWrite(2, LOW);
   }
 }
 
