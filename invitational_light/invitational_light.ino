@@ -11,7 +11,7 @@ boolean spoken = false;
  
 void setup(void) {
   // We'll send debugging information via the Serial monitor
-  Serial.begin(9600); 
+  Serial.begin(9600);      
   pinMode(2, OUTPUT);  
 }
  
@@ -40,5 +40,5 @@ void loop(void) {
       spoken = true;
     }
   }
-  delay(1000);
+  delay(100);
 }

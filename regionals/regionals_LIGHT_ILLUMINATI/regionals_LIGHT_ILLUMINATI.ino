@@ -23,11 +23,11 @@ void loop(void) {
   Serial.println(photocellReading);     // the raw analog reading
  
   // We'll have a few threshholds, qualitatively determined
-  if (photocellReading < 150) {
+  if (photocellReading < 250) {
     if (!spoken) {
       delay(9000); //delay to max score
-      Serial.println("Trigged");
       digitalWrite(2, LOW);
+      Serial.println("Trigged");
       spoken = true;
     }
   }
