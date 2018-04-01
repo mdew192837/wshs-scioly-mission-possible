@@ -23,12 +23,10 @@ boolean FINISHED = false;
 
 void setup() {
   Serial.begin(9600);
-  // Set up pin 2 as HIGH
-  pinMode(RECEIVE_PIN, INPUT_PULLUP);
+  pinMode(READ_PIN, INPUT_PULLUP);
+  pinMode(CIRCUIT_PIN, INPUT_PULLUP);
   pinMode(SEND_PIN, OUTPUT);
-  pinMode(SWITCH_PIN, INPUT_PULLUP);
-  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
-  myservo.write(150);
+  pinMode(PUMP_PIN, OUTPUT);
 }
 
 void loop() {
