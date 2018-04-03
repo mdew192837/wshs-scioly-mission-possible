@@ -25,20 +25,23 @@ float AMBIENT_TEMP;
 // Motor
 // Transistor opens and closes the circuit
 // Default is 0
-int MOTOR = 9;
+int MOTOR_PIN = 9;
+
+int RECEIVE_PIN = 2;
 
 int TEMP_DIFFERENTIAL = 3;
 
-int SIGNAL = 13;
+int SIGNAL_PIN = 13;
 
 boolean TRIGGERED = false;
 
 void setup() {
   // Setting up the transistor/motor
-  pinMode(MOTOR, OUTPUT);
-  pinMode(TO_SIGNAL, OUTPUT);
-  digitalWrite(MOTOR, LOW);
-  digitalWrite(TO_SIGNAL, LOW);
+  pinMode(MOTOR_PIN, OUTPUT);
+  pinMode(SIGNAL_PIN, OUTPUT);
+  pinMode(RECEIVE_PIN, INPUT_PULLUP);
+  digitalWrite(MOTOR_PIN, LOW);
+  digitalWrite(SIGNAL_PIN, HIGH);
 
   // Serial monitor Crt+Alt+M
   Serial.begin(9600);
@@ -56,31 +59,32 @@ void setup() {
   Serial.print("Ambient Temperature:          ");
   Serial.println(ambientTemp);
   Serial.print("Peltier State:                ");
-  Serial.println(digitalRead(MOTOR));
+  Serial.println(digitalRead(MOTOR_PIN));
 }
 
 int temperature;
 void loop() {
-  digitalWrite(MOTOR, LOW);
-  digitalWrite(TO_SIGNAL, LOW);
-  Serial.println(digitalRead(MOTOR));
+  // Motor 0 if nothing
+  digitalWrite(MOTOR_PIN, 0);
+  digitalWrite(SIGNAL_PIN, HIGH);
   Serial.println("Requesting temps...");
   sensors.requestTemperatures();
-  temperature = toFahrenheit(sensors.getTempCByIndex(0)
+  temperature = toFahrenheit(sensors.getTempCByIndex(0))
   Serial.print("Temperature: "); Serial.println(temperature);
   delay(1000);
   // Currently set to 3 degrees F below ambient, subject to change
-  if ( digitalRead(2) && !TRIGGERED ) {
+  // Make sure IR triggers us
+  if ( !digitalRead(RECEIVE_PIN) && !TRIGGERED ) {
     // Analog so we can get PWM control
-    analogWrite(MOTOR, 64);
+    analogWrite(MOTOR_PIN, 64);
     // Delay .5 s
     delay(500);
     // Make sure we stop the motor
-    digitalWrite(MOTOR, LOW);
+    digitalWrite(MOTOR, 0);
     TRIGGERED = false;
   }
   if ( temperature < ( AMBIENT_TEMP - TEMP_DIFFERENTIAL ) && TRIGGERED ) {
-    digitalWrite(TO_SIGNAL, HIGH);  
+    digitalWrite(SIGNAL_PIN, LOW);
   }
 }
 

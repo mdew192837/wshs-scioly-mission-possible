@@ -19,6 +19,7 @@ void setup() {
   // And write it to HIGH
   pinMode(IR_PIN, INPUT_PULLUP);
   pinMode(SEND_PIN, OUTPUT);
+  digitalWrite(SEND_PIN, HIGH);
 }
 
 void loop() {
