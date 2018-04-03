@@ -1,10 +1,6 @@
-/* Sweep
-  by BARRAGAN <http://barraganstudio.com>
-  This example code is in the public domain.
-
-  modified 8 Nov 2013
-  by Scott Fitzgerald
-  http://www.arduino.cc/en/Tutorial/Sweep
+/*
+ * WSHS Science Olympiad State 2018
+ * @author Justin Du (MtDu)
 */
 
 #include <Servo.h>
@@ -34,7 +30,7 @@ void setup() {
 
 void loop() {
   myservo.write(150);
-  if ( !digitalRead(2) && !FINISHED ) {
+  if ( !digitalRead(RECEIVE_PIN) && !FINISHED ) {
     delay(500);
     myservo.write(0);
     delay(2000);
@@ -44,6 +40,7 @@ void loop() {
   Serial.println(digitalRead(SWITCH_PIN));
   // SWITCH_PIN is low when circuit completes
   if ( FINISHED && !digitalRead(SWITCH_PIN) ) {
+    // Writing low bc using PULL_UP functionality
     digitalWrite(SEND_PIN, LOW);
     Serial.println("DONE!");
   }
