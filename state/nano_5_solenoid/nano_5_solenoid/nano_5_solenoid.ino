@@ -10,7 +10,6 @@ int SOLENOID = 9;
 int SEND_PIN = 13;
 
 // Speeds
-int HIGH_SPEED = 255;
 int SOLENOID_RUN_TIME = 500;
 
 // Booleans
@@ -37,9 +36,9 @@ void loop() {
    * 4. Once action is complete, send the signal to pin 13
    */
   if ( !digitalRead(RECEIVE_PIN) && !TRIGGERED ) {
-    analogWrite(SOLENOID, HIGH_SPEED);
+    digitalWrite(SOLENOID, HIGH);
     delay(SOLENOID_RUN_TIME);
-    analogWrite(9, 0);
+    digitalWrite(SOLENOID, LOW);
     TRIGGERED = true;
   }
 
