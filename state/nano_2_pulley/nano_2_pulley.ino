@@ -6,7 +6,6 @@
 // Pins we need
 int RECEIVE_PIN = 2;
 int MOTOR_PIN = 9;
-int SEND_PIN = 13;
 
 // Speeds
 int HIGH_SPEED = (int) .75 * 255;
@@ -18,7 +17,6 @@ boolean TRIGGERED = false;
 void setup() {
   Serial.begin(9600);
   pinMode(RECEIVE_PIN, INPUT_PULLUP);
-  pinMode(SEND_PIN, OUTPUT);
   pinMode(MOTOR_PIN, OUTPUT);
 }
 
@@ -31,9 +29,9 @@ void loop() {
    * 4. Set triggered to True
    */
   if ( !digitalRead(RECEIVE_PIN) && !TRIGGERED ) {
-    analogWrite(9, HIGH_SPEED);
+    analogWrite(MOTOR_PIN, HIGH_SPEED);
     delay(MOTOR_RUN_TIME);
-    analogWrite(9, 0);
+    analogWrite(MOTOR_PIN, 0);
     TRIGGERED = true;
   }
 }
