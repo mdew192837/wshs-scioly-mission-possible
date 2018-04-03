@@ -4,12 +4,8 @@
 */
 
 // Pins we need
-int RECEIVE_PIN = 2;
+int IR_PIN = 2;
 int SEND_PIN = 13;
-
-// Speeds
-int HIGH_SPEED = (int) .75 * 255;
-int MOTOR_RUN_TIME = 5000;
 
 // Booleans
 boolean TRIGGERED = false;
@@ -21,12 +17,12 @@ void setup() {
   Serial.begin(9600);
   // Might need to set it to input
   // And write it to HIGH
-  pinMode(RECEIVE_PIN, INPUT_PULLUP);
+  pinMode(IR_PIN, INPUT_PULLUP);
   pinMode(SEND_PIN, OUTPUT);
 }
 
 void loop() {
-  sensorState = digitalRead(RECEIVE_PIN);
+  sensorState = digitalRead(IR_PIN);
   /*
    * How this works...
    * If sensorState is high, then it means beam is still there
@@ -40,7 +36,8 @@ void loop() {
     Serial.println("Broken");
     // Make sure we don't trigger it accidentally
     if (!TRIGGERED) {
-      digitalWrite(SEND_PIN, HIGH);
+      // Writing low because we are using PULL_UP functionality
+      digitalWrite(SEND_PIN, LOW);
       TRIGGERED = true;
     }
   }
