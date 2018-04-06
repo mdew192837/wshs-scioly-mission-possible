@@ -5,13 +5,13 @@
 
 // Pins we need
 int READ_PIN = 2;
-int CIRCUIT_PIN = 3;
+int CIRCUIT_PIN = 4;
 int PUMP_PIN = 9;
 int SEND_PIN = 13;
 
 // Speeds
-int SLOW_SPEED = 50;
-int PUMP_RUN_TIME = 5000;
+int SLOW_SPEED = 255;
+int PUMP_RUN_TIME = 1000;
 
 // Booleans
 boolean ACTION_STARTED = false;
@@ -23,10 +23,14 @@ void setup() {
   pinMode(CIRCUIT_PIN, INPUT_PULLUP);
   pinMode(SEND_PIN, OUTPUT);
   pinMode(PUMP_PIN, OUTPUT);
+  digitalWrite(SEND_PIN, HIGH);
 }
 
 void loop() {
+  Serial.println("RECEIVE PIN");
   Serial.println(digitalRead(READ_PIN));
+  Serial.println("CIRCUIT PIN");
+  Serial.println(digitalRead(CIRCUIT_PIN));
   // Until we want to trigger it
   digitalWrite(SEND_PIN, HIGH);
 
@@ -34,6 +38,7 @@ void loop() {
   // AND
   // The pullup resistor is now LOW
   if ( !ACTION_STARTED && !ACTION_FINISHED && digitalRead(READ_PIN) ) {
+    Serial.println("SHOULD HAVE RAN. :)");
     // Speed ranges from 0-255
     // We'll just do 50 as low
     analogWrite(PUMP_PIN, SLOW_SPEED);
@@ -49,6 +54,7 @@ void loop() {
     // Note to self: If for some reason it doesn't work...
     // Just take out the if! :)
     if ( !digitalRead(CIRCUIT_PIN) ) {
+      Serial.println("SENT SIGNAL");
       // Send dat signal!
       // It's low bc we are using PULL_UP functionality
       // So LOW will be sensed... :)

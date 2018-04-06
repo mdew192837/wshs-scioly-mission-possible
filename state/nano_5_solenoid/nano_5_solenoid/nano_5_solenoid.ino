@@ -42,7 +42,7 @@ void loop() {
     TRIGGERED = true;
   }
 
-  if ( !ACTION_COMPLETE && TRIGGERED && !digitalRead(SECOND_RECEIVE_PIN) {
+  if ( !ACTION_COMPLETE && TRIGGERED && !digitalRead(SECOND_RECEIVE_PIN) ) {
     digitalWrite(13, LOW);
     // So it doesn't run again...
     ACTION_COMPLETE = true;

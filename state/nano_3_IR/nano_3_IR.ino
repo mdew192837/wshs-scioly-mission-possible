@@ -27,7 +27,7 @@ void loop() {
   /*
    * How this works...
    * If sensorState is high, then it means beam is still there
-   * If lastState is 0, means the beam was broken before but isn't now
+   * If lastState is 0, means the beam was brok                                                                                                                   en before but isn't now
    */
   if (sensorState && !lastState) {
     Serial.println(sensorState);
@@ -37,8 +37,8 @@ void loop() {
     Serial.println("Broken");
     // Make sure we don't trigger it accidentally
     if (!TRIGGERED) {
-      // Writing low because we are using PULL_UP functionality
-      digitalWrite(SEND_PIN, LOW);
+      // Writing low because we are using PULL_UP functionalityf
+      digitalWrite(SEND_PIN, LOW);  
       TRIGGERED = true;
     }
   }

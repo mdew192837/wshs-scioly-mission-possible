@@ -21,6 +21,7 @@ void setup() {
 }
 
 void loop() {
+  Serial.println(digitalRead(RECEIVE_PIN));
   /*
    * How this works...
    * 1. Turn motor on (ONLY IF RECEIVE IS LOW AND HASN'T ALREADY BEEN TRIGGERED)
@@ -29,6 +30,7 @@ void loop() {
    * 4. Set triggered to True
    */
   if ( !digitalRead(RECEIVE_PIN) && !TRIGGERED ) {
+    Serial.println("MOTOR RUN");
     analogWrite(MOTOR_PIN, HIGH_SPEED);
     delay(MOTOR_RUN_TIME);
     analogWrite(MOTOR_PIN, 0);

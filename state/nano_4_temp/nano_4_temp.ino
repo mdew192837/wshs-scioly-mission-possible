@@ -9,7 +9,7 @@
 #include <DallasTemperature.h>
 /********************************************************************/
 // Data wire is plugged into pin 2 on the Arduino 
-#define ONE_WIRE_BUS 2 
+#define ONE_WIRE_BUS 4
 /********************************************************************/
 // Setup a oneWire instance to communicate with any OneWire devices  
 // (not just Maxim/Dallas temperature ICs) 
@@ -29,9 +29,13 @@ int MOTOR_PIN = 9;
 
 int RECEIVE_PIN = 2;
 
-int TEMP_DIFFERENTIAL = 3;
+int TEMP_DIFFERENTIAL = 2;
 
 int SIGNAL_PIN = 13;
+
+// Pump Stuff
+int PUMP_SPEED = 255;
+int PUMP_RUN_TIME = 1000;
 
 boolean TRIGGERED = false;
 
@@ -48,16 +52,13 @@ void setup() {
 
   Serial.println("Dallas Temperature Test!");
 
-  // Make sure we got sensor
-  if (!sensor.begin()) {
-    Serial.println("Did not find Temperature sensor!");
-    while (true);
-  }
+  // Begin getting data
+  sensors.begin();
 
   // Get the average temp, varies based on environment
-  ambientTemp = getAverage();
+  AMBIENT_TEMP = getAverage();
   Serial.print("Ambient Temperature:          ");
-  Serial.println(ambientTemp);
+  Serial.println(AMBIENT_TEMP);
   Serial.print("Peltier State:                ");
   Serial.println(digitalRead(MOTOR_PIN));
 }
@@ -65,25 +66,29 @@ void setup() {
 int temperature;
 void loop() {
   // Motor 0 if nothing
+  Serial.println("RECEIVE PIN");
+  Serial.println(digitalRead(RECEIVE_PIN));
   digitalWrite(MOTOR_PIN, 0);
   digitalWrite(SIGNAL_PIN, HIGH);
   Serial.println("Requesting temps...");
   sensors.requestTemperatures();
-  temperature = toFahrenheit(sensors.getTempCByIndex(0))
+  temperature = toFahrenheit(sensors.getTempCByIndex(0));
   Serial.print("Temperature: "); Serial.println(temperature);
   delay(1000);
   // Currently set to 3 degrees F below ambient, subject to change
   // Make sure IR triggers us
   if ( !digitalRead(RECEIVE_PIN) && !TRIGGERED ) {
+    Serial.println("Should have ran.");
     // Analog so we can get PWM control
-    analogWrite(MOTOR_PIN, 64);
+    analogWrite(MOTOR_PIN, PUMP_SPEED);
     // Delay .5 s
     delay(500);
     // Make sure we stop the motor
-    digitalWrite(MOTOR, 0);
-    TRIGGERED = false;
+    digitalWrite(MOTOR_PIN, PUMP_RUN_TIME);
+    TRIGGERED = true;
   }
   if ( temperature < ( AMBIENT_TEMP - TEMP_DIFFERENTIAL ) && TRIGGERED ) {
+    Serial.println("SENT SIGNAL");
     digitalWrite(SIGNAL_PIN, LOW);
   }
 }
