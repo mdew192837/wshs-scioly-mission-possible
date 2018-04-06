@@ -30,7 +30,13 @@ void setup() {
 
 void loop() {
   myservo.write(150);
+  Serial.println("RECEIVE PIN");
+  Serial.println(digitalRead(RECEIVE_PIN));
+
+  Serial.println("SWITCH PIN");
+  Serial.println(digitalRead(SWITCH_PIN));
   if ( !digitalRead(RECEIVE_PIN) && !FINISHED ) {
+    Serial.println("SERVO ARM!");
     delay(500);
     myservo.write(0);
     delay(2000);
