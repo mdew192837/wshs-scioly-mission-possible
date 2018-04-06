@@ -25,6 +25,12 @@ void setup() {
 }
 
 void loop() {
+  Serial.println("RECEIVE PIN");
+  Serial.println(digitalRead(RECEIVE_PIN));
+
+  Serial.println("SECOND RECEIVE PIN");
+  Serial.println(digitalRead(SECOND_RECEIVE_PIN));
+
   // Until we want to trigger it
   digitalWrite(13, HIGH);
 
@@ -43,8 +49,12 @@ void loop() {
   }
 
   if ( !ACTION_COMPLETE && TRIGGERED && !digitalRead(SECOND_RECEIVE_PIN) ) {
-    digitalWrite(13, LOW);
     // So it doesn't run again...
     ACTION_COMPLETE = true;
+  }
+
+  if ( ACTION_COMPLETE ) {
+    Serial.println("ACTION COMPLETE!!!");
+    digitalWrite(13, LOW);
   }
 }
